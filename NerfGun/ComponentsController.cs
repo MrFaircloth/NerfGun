@@ -40,16 +40,16 @@ namespace NerfGun
         {
             _gun.Fire();
             Delay(1000);
-            _gun.CeaseFire();
+            //_gun.CeaseFire();
             return true;
         }
 
-        public bool TestFireOnMotion()
+        public bool TestFireOnMotionAsync()
         {
             while (!_motionSensor.ReadSensor()) { }
             _gun.Fire();
-            Delay(1000);
-            _gun.CeaseFire();
+            Delay(5000);
+            
             return true;
         }
 
@@ -60,15 +60,12 @@ namespace NerfGun
             return true;
         }
 
-        public async void Delay(int time)
+        public  void Delay(int time)
         {
-            Observable
-        .Interval(TimeSpan.FromMilliseconds(time))
-        .Subscribe(
-            x =>
-            {
-                // Console.WriteLine(x);
-            });
+            var Result = Observable.Range(0, 10);
+            var frequency = TimeSpan.FromMilliseconds(time);
+            var delay = Result.Delay(frequency);
+            delay.Subscribe(x => _gun.CeaseFire());
         }
     }
 }
