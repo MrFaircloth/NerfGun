@@ -1,0 +1,58 @@
+<Page
+    x:Class="NerfGun.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NerfGun"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:MyToolkit.Controls"
+    mc:Ignorable="d"
+    Background="#182135"
+    >
+
+    <Grid HorizontalAlignment="Center">
+        
+        <!--
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox x:Name="HelloMessage" Text="Getting Ready..." Margin="10" IsReadOnly="True"/>
+        </StackPanel>
+        -->
+
+        <TextBlock Text="Nerf Gun Turret" HorizontalAlignment="Center" Margin="0,0" 
+               FontSize="50" Foreground="White"/>
+        <TextBlock Text="Turret Status:" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" Foreground="White" FontSize="45"/>
+        <TextBlock Text="Ammuniton Status:" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBlock Text="Ammunition Count:" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBlock Text="Runtime:" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Foreground="White"/>
+
+        <controls:DataGrid x:Name="DataGrid" Grid.Row="1" 
+                           ItemsSource="{Binding Detection}" 
+                           SelectionMode="Multiple" 
+                           SelectedItem="{Binding SelectedDetection, Mode=TwoWay}"
+                           DefaultOrderIndex="1"
+                           Background="DarkGray"
+                           VerticalAlignment="Bottom"
+                           Height="500">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Width="*" Header="Target Detected" Binding="{Binding TargetDetected}" />
+                <controls:DataGridTextColumn Width="*" Header="Time Detected" Binding="{Binding TimeDetected}" />
+                <controls:DataGridTextColumn Width="*" Header="System Response" Binding="{Binding SystemResponse}" />
+            </controls:DataGrid.Columns>
+            <controls:DataGrid.ItemDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="12,0,12,12">
+                        <!-- <TextBlock Text="Details: " FontWeight="Bold" /> -->
+                        <TextBlock Text="{Binding TargetDetected}" />
+                        <TextBlock Text="{Binding TimeDetected}" />
+                        <TextBlock Text="{Binding SystemResponse}" />
+                    </StackPanel>
+                </DataTemplate>
+            </controls:DataGrid.ItemDetailsTemplate>
+            <!--<controls:DataGrid.RowStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"></Setter>
+                </Style>
+            </controls:DataGrid.RowStyle>-->
+        </controls:DataGrid>
+    </Grid>
+</Page>
