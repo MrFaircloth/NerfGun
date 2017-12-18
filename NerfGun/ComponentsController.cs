@@ -62,7 +62,13 @@ namespace NerfGun
 
         public async void Delay(int time)
         {
-            await Task.Delay(time);
+            Observable
+        .Interval(TimeSpan.FromMilliseconds(time))
+        .Subscribe(
+            x =>
+            {
+                // Console.WriteLine(x);
+            });
         }
     }
 }

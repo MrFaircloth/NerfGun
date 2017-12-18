@@ -83,14 +83,18 @@ namespace NerfGun
         public void StartProgram()
         {
             
-            var system = new ComponentsController();
-            system.InitializeComponents();
+            while (true)
+            {
+                var system = new ComponentsController();
+                system.InitializeComponents();
+                system.TestFireOnMotion();
+                list.Add(new Detection("Unknown", "Fired"));
+                this.DataGrid.ItemsSource = list;
+                system.CleanUp();
+                system.Delay(5000);
                 
-            system.TestFireOnMotion();
-            list.Add(new Detection("Unknown", "Fired"));
-            this.DataGrid.ItemsSource = list;
-
-            system.CleanUp();
+            }
+            
         }
     }
 }
