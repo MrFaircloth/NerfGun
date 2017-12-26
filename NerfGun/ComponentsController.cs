@@ -33,7 +33,9 @@ namespace NerfGun
 
         public bool TestMotionSensors()
         {
-            return _motionSensor.ReadSensor();
+            while (!_motionSensor.ReadSensor()) { }
+
+            return true;
         }
 
         public bool TestFire()
@@ -52,6 +54,8 @@ namespace NerfGun
             
             return true;
         }
+
+
 
         public bool CleanUp()
         {

@@ -58,7 +58,7 @@ namespace NerfGun
             list.Add(new Detection() { TargetDetected = "Uka",  SystemResponse = "Missed" });
             list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
             list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
-            list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
+            list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "Hit" });
             this.DataGrid.ItemsSource = list;
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
@@ -81,16 +81,13 @@ namespace NerfGun
         {
             var system = new ComponentsController();
             system.InitializeComponents();
-            while (true)
+            // system.FireOnMotion();
+            if (system.TestMotionSensors())
             {
-                // system.FireOnMotion();
-                if (system.TestMotionSensors())
-                {
-                    list.Add(new Detection("Unknown", "Fired"));
-                    this.DataGrid.ItemsSource = list;
-                    // system.CleanUp();
-                    system.Delay(2000);
-                }
+                list.Add(new Detection("Unknown", "Fired"));
+                this.DataGrid.ItemsSource = list;
+                // system.CleanUp();
+                system.Delay(2000);
             }
         }
     }

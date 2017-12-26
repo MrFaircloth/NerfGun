@@ -24,9 +24,9 @@
         <TextBlock Text="Ammuniton Status:" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBlock Text="Ammunition Count:" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBlock Text="Runtime:" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Foreground="White"/>
-
+        <!-- -->
         <controls:DataGrid x:Name="DataGrid" Grid.Row="1" 
-                           ItemsSource="{Binding Detection}" 
+                           ItemsSource="{Binding Detection}"
                            SelectionMode="Multiple" 
                            SelectedItem="{Binding SelectedDetection, Mode=TwoWay}"
                            DefaultOrderIndex="1"
@@ -35,7 +35,7 @@
                            Height="500">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Width="*" Header="Target Detected" Binding="{Binding TargetDetected}" />
-                <controls:DataGridTextColumn Width="3" Header="Time Detected" Binding="{Binding TimeDetected}" />
+                <controls:DataGridTextColumn Width="*" Header="Time Detected" Binding="{Binding TimeDetected}" />
                 <controls:DataGridTextColumn Width="*" Header="System Response" Binding="{Binding SystemResponse}" />
             </controls:DataGrid.Columns>
             <controls:DataGrid.ItemDetailsTemplate>
@@ -48,11 +48,6 @@
                     </StackPanel>
                 </DataTemplate>
             </controls:DataGrid.ItemDetailsTemplate>
-            <!--<controls:DataGrid.RowStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Padding" Value="0"></Setter>
-                </Style>
-            </controls:DataGrid.RowStyle>-->
         </controls:DataGrid>
     </Grid>
 </Page>
