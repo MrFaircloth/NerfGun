@@ -51,8 +51,8 @@ namespace NerfGun
 
         public void CleanUp()
         {
-            //_motor.Dispose();
-            //_trigger.Dispose();
+            _motor.Dispose();
+            _trigger.Dispose();
         }
     }
 }

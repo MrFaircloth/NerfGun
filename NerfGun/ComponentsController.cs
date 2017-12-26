@@ -23,6 +23,17 @@ namespace NerfGun
             _gpio = GpioController.GetDefault();
             _gun = new NerfGun(_gpio);
             _motionSensor = new MotionSensor(_gpio);
+            // Run();
+        }
+
+        void Run()
+        {
+            InitializeComponents();
+            while (true)
+            {
+                FireOnMotion();
+                Delay(1000);
+            }
         }
 
         public void InitializeComponents()
@@ -47,8 +58,8 @@ namespace NerfGun
         public bool FireOnMotion()
         {
             while (!_motionSensor.ReadSensor()) { }
-            // _gun.Fire();
-            Delay(5000);
+            _gun.Fire();
+            Delay(500);
             
             return true;
         }
@@ -60,7 +71,7 @@ namespace NerfGun
             return true;
         }
 
-        public  void Delay(int time)
+        public void Delay(int time)
         {
             var Result = Observable.Range(0, 10);
             var frequency = TimeSpan.FromMilliseconds(time);
