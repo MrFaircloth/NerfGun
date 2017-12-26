@@ -59,7 +59,6 @@ namespace NerfGun
             list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
             list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
             list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
-            this.DataGrid.ItemsSource = list;
 
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
@@ -85,12 +84,31 @@ namespace NerfGun
             while (system.FireOnMotion())
             {
                 list.Add(new Detection("Unknown", "Fired"));
-                this.DataGrid.ItemsSource = list;
                 // system.CleanUp();
                 system.Delay(2000);
                 system.CleanUp();
                 system.InitializeComponents();
             }
         }
+        private void Apply_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Fire1_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FireAll_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }
