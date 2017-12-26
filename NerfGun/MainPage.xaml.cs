@@ -67,7 +67,6 @@ namespace NerfGun
 
             MainPageDispatcher = Window.Current.Dispatcher;
 
-        
             this.Loaded += async (sender, e) =>
             {
                 await MainPageDispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
@@ -75,22 +74,22 @@ namespace NerfGun
                     StartProgram();
                 });
             };
-        }            
+        }
 
         public void StartProgram()
         {
             var system = new ComponentsController();
+            
             system.InitializeComponents();
-            while (true)
+            // system.FireOnMotion();
+            while (system.FireOnMotion())
             {
-                // system.FireOnMotion();
-                if (system.TestMotionSensors())
-                {
-                    list.Add(new Detection("Unknown", "Fired"));
-                    this.DataGrid.ItemsSource = list;
-                    // system.CleanUp();
-                    system.Delay(2000);
-                }
+                list.Add(new Detection("Unknown", "Fired"));
+                this.DataGrid.ItemsSource = list;
+                // system.CleanUp();
+                system.Delay(2000);
+                system.CleanUp();
+                system.InitializeComponents();
             }
         }
     }
