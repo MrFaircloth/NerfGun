@@ -47,7 +47,6 @@ namespace NerfGun
             // HOLD
             _motor.Write(GpioPinValue.High);
             _trigger.Write(GpioPinValue.High);
-            
         }
 
         public void CleanUp()

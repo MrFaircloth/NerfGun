@@ -44,10 +44,10 @@ namespace NerfGun
             return true;
         }
 
-        public bool TestFireOnMotionAsync()
+        public bool FireOnMotion()
         {
             while (!_motionSensor.ReadSensor()) { }
-            _gun.Fire();
+            // _gun.Fire();
             Delay(5000);
             
             return true;

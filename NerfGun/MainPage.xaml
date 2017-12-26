@@ -20,7 +20,7 @@
 
         <TextBlock Text="Nerf Gun Turret" HorizontalAlignment="Center" Margin="0,0" 
                FontSize="50" Foreground="White"/>
-        <TextBlock Text="Turret Status:" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" Foreground="White" FontSize="45"/>
+        <TextBlock Text="Turret Status:" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Top" Foreground="White" FontSize="50"/>
         <TextBlock Text="Ammuniton Status:" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBlock Text="Ammunition Count:" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBlock Text="Runtime:" HorizontalAlignment="Left" Margin="50,200,0,0" VerticalAlignment="Top" Foreground="White"/>
@@ -35,7 +35,7 @@
                            Height="500">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Width="*" Header="Target Detected" Binding="{Binding TargetDetected}" />
-                <controls:DataGridTextColumn Width="*" Header="Time Detected" Binding="{Binding TimeDetected}" />
+                <controls:DataGridTextColumn Width="3" Header="Time Detected" Binding="{Binding TimeDetected}" />
                 <controls:DataGridTextColumn Width="*" Header="System Response" Binding="{Binding SystemResponse}" />
             </controls:DataGrid.Columns>
             <controls:DataGrid.ItemDetailsTemplate>

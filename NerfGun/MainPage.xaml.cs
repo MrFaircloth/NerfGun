@@ -61,9 +61,6 @@ namespace NerfGun
             list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
             this.DataGrid.ItemsSource = list;
 
-
-
-
             // This is a static public property that allows downstream pages to get a handle to the MainPage instance
             // in order to call methods that are in this class.
             Current = this;
@@ -86,16 +83,15 @@ namespace NerfGun
             system.InitializeComponents();
             while (true)
             {
-               
-                
-                system.TestFireOnMotionAsync();
-                list.Add(new Detection("Unknown", "Fired"));
-                this.DataGrid.ItemsSource = list;
-               // system.CleanUp();
-                system.Delay(2000);
-                
+                // system.FireOnMotion();
+                if (system.TestMotionSensors())
+                {
+                    list.Add(new Detection("Unknown", "Fired"));
+                    this.DataGrid.ItemsSource = list;
+                    // system.CleanUp();
+                    system.Delay(2000);
+                }
             }
-            
         }
     }
 }
