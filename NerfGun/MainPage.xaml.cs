@@ -32,6 +32,7 @@ namespace NerfGun
         
         public static MainPage Current;
         private CoreDispatcher MainPageDispatcher;
+        private ComponentsController controller;
 
         public CoreDispatcher UIThreadDispatcher
         {
@@ -49,30 +50,31 @@ namespace NerfGun
         public MainPage()
         {
             this.InitializeComponent();
+            controller = new ComponentsController();
+            controller.InitializeComponents();
             
-            /*
-            list = new ObservableCollection<Detection>();
-            list.Add(new Detection() { TargetDetected = "Mathuzalem", SystemResponse = "No Response" });
-            list.Add(new Detection() { TargetDetected = "Mitch", SystemResponse = "No Response" });
-            list.Add(new Detection() { TargetDetected = "Uka",  SystemResponse = "Missed" });
-            list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
-            list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
-            list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
+            //list = new ObservableCollection<Detection>();
+            //list.Add(new Detection() { TargetDetected = "Mathuzalem", SystemResponse = "No Response" });
+            //list.Add(new Detection() { TargetDetected = "Mitch", SystemResponse = "No Response" });
+            //list.Add(new Detection() { TargetDetected = "Uka",  SystemResponse = "Missed" });
+            //list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
+            //list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
+            //list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
 
-            // This is a static public property that allows downstream pages to get a handle to the MainPage instance
-            // in order to call methods that are in this class.
-            Current = this;
+            //// This is a static public property that allows downstream pages to get a handle to the MainPage instance
+            //// in order to call methods that are in this class.
+            //Current = this;
 
-            MainPageDispatcher = Window.Current.Dispatcher;
+            //MainPageDispatcher = Window.Current.Dispatcher;
 
-            this.Loaded += async (sender, e) =>
-            {
-                await MainPageDispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    StartProgram();
-                });
-            };
-            */
+            //this.Loaded += async (sender, e) =>
+            //{
+            //    await MainPageDispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            //    {
+            //        StartProgram();
+            //    });
+            //};
+            
         }
         
         //public void StartProgram()
@@ -103,13 +105,12 @@ namespace NerfGun
 
         private void Fire1_Click(object sender, RoutedEventArgs e)
         {
-
+            controller.TestFire();
         }
 
         private void FireAll_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
     }
 }

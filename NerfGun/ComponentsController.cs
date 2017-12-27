@@ -9,27 +9,25 @@ using Windows.Devices.Gpio;
 
 namespace NerfGun
 {
-    public sealed class ComponentsController : IBackgroundTask
+    public sealed class ComponentsController
     {
         private const int MOTOR_PIN = 27; // Pi pin 13
         private const int TRIGGER_PIN = 22; // Pi pin 15
         private const int MOTION_PIN = 26; // Pi pin 37
 
-        BackgroundTaskDeferral _deferral;
         NerfGun _gun;
         MotionSensor _motionSensor;
         GpioController _gpio;
 
-        //public ComponentsController()
-        //{
-        //    _gpio = GpioController.GetDefault();
-        //    _gun = new NerfGun(_gpio);
-        //    _motionSensor = new MotionSensor(_gpio);
-        //}
-
-        public void Run(IBackgroundTaskInstance taskInstance)
+        public ComponentsController()
         {
-            _deferral = taskInstance.GetDeferral();
+            _gpio = GpioController.GetDefault();
+            _gun = new NerfGun(_gpio);
+            _motionSensor = new MotionSensor(_gpio);
+        }
+
+        public void Run( )
+        {
             InitializeComponents();
             while (true)
             {
@@ -56,7 +54,7 @@ namespace NerfGun
         public bool TestFire()
         {
             _gun.Fire();
-            Delay(1000);
+            Delay(500);
             //_gun.CeaseFire();
             return true;
         }
