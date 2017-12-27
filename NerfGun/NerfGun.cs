@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Devices.Gpio;
+﻿using Windows.Devices.Gpio;
 
 namespace NerfGun
 {
@@ -36,7 +30,6 @@ namespace NerfGun
         public void Fire()
         {
             // Write to pins (low since relay holds at high)
-            // FIRE
             _motor.Write(GpioPinValue.Low);
             _trigger.Write(GpioPinValue.Low);
         }
@@ -44,13 +37,13 @@ namespace NerfGun
         public void CeaseFire()
         {
             // Write to pins (low since relay holds at high)
-            // HOLD
             _motor.Write(GpioPinValue.High);
             _trigger.Write(GpioPinValue.High);
         }
 
         public void CleanUp()
         {
+            // *should* reset the pins.
             _motor.Dispose();
             _trigger.Dispose();
         }

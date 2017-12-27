@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Background;
 using Windows.Devices.Gpio;
 
 namespace NerfGun
@@ -26,6 +21,7 @@ namespace NerfGun
             _motionSensor = new MotionSensor(_gpio);
         }
 
+        // infinite fire on motion
         public void Run( )
         {
             InitializeComponents();
@@ -36,6 +32,7 @@ namespace NerfGun
             }
         }
 
+        // creates gpio, nerfgun, motion sensor objects and passes pins
         public void InitializeComponents()
         {
             _gpio = GpioController.GetDefault();
@@ -46,11 +43,14 @@ namespace NerfGun
             _gun.SetPins(MOTOR_PIN, TRIGGER_PIN);
         }
 
+        // returns motion sensor reading
+        // *expected to add multiple motion sensors* 
         public bool TestMotionSensors()
         {
             return _motionSensor.ReadSensor();
         }
 
+        // shoots once (or at least for 0.5 second)
         public bool TestFire()
         {
             _gun.Fire();
@@ -59,6 +59,7 @@ namespace NerfGun
             return true;
         }
 
+        // Fires after motion is detected
         public bool FireOnMotion()
         {
             while (!_motionSensor.ReadSensor()) { }
@@ -75,6 +76,7 @@ namespace NerfGun
             return true;
         }
 
+        // I kinda understand this
         public void Delay(int time)
         {
             var Result = Observable.Range(0, 10);
@@ -82,7 +84,5 @@ namespace NerfGun
             var delay = Result.Delay(frequency);
             delay.Subscribe(x => _gun.CeaseFire());
         }
-
-
     }
 }
