@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Gpio;
 
-namespace NerfGun
+namespace NerfGunBackground
 {
-    public sealed class ComponentsController : IBackgroundTask
+    public sealed class ComponentsController
     {
         private const int MOTOR_PIN = 27; // Pi pin 13
         private const int TRIGGER_PIN = 22; // Pi pin 15
@@ -20,30 +20,15 @@ namespace NerfGun
         MotionSensor _motionSensor;
         GpioController _gpio;
 
-        //public ComponentsController()
-        //{
-        //    _gpio = GpioController.GetDefault();
-        //    _gun = new NerfGun(_gpio);
-        //    _motionSensor = new MotionSensor(_gpio);
-        //}
-
-        public void Run(IBackgroundTaskInstance taskInstance)
-        {
-            _deferral = taskInstance.GetDeferral();
-            InitializeComponents();
-            while (true)
-            {
-                FireOnMotion();
-                Delay(1000);
-            }
-        }
-
-        public void InitializeComponents()
+        public ComponentsController()
         {
             _gpio = GpioController.GetDefault();
             _gun = new NerfGun(_gpio);
             _motionSensor = new MotionSensor(_gpio);
+        }
 
+        public void InitializeComponents()
+        {
             _motionSensor.SetPins(MOTION_PIN);
             _gun.SetPins(MOTOR_PIN, TRIGGER_PIN);
         }

@@ -33,8 +33,6 @@ namespace NerfGun
         public static MainPage Current;
         private CoreDispatcher MainPageDispatcher;
 
-        ObservableCollection<Detection> list;
-
         public CoreDispatcher UIThreadDispatcher
         {
             get
@@ -51,7 +49,8 @@ namespace NerfGun
         public MainPage()
         {
             this.InitializeComponent();
-
+            
+            /*
             list = new ObservableCollection<Detection>();
             list.Add(new Detection() { TargetDetected = "Mathuzalem", SystemResponse = "No Response" });
             list.Add(new Detection() { TargetDetected = "Mitch", SystemResponse = "No Response" });
@@ -73,23 +72,25 @@ namespace NerfGun
                     StartProgram();
                 });
             };
+            */
         }
-
-        public void StartProgram()
-        {
-            var system = new ComponentsController();
+        
+        //public void StartProgram()
+        //{
+        //    var system = new ComponentsController();
             
-            system.InitializeComponents();
-            // system.FireOnMotion();
-            while (system.FireOnMotion())
-            {
-                list.Add(new Detection("Unknown", "Fired"));
-                // system.CleanUp();
-                system.Delay(2000);
-                system.CleanUp();
-                system.InitializeComponents();
-            }
-        }
+        //    system.InitializeComponents();
+        //    // system.FireOnMotion();
+        //    while (system.FireOnMotion())
+        //    {
+        //        list.Add(new Detection("Unknown", "Fired"));
+        //        // system.CleanUp();
+        //        system.Delay(2000);
+        //        system.CleanUp();
+        //        system.InitializeComponents();
+        //    }
+        //}
+        
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
 

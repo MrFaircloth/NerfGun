@@ -40,6 +40,12 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      
+      <!--<Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="NerfGunBackground.StartupTask">
+        </Extension>
+      </Extensions>-->
+      
     </Application>
   </Applications>
 
