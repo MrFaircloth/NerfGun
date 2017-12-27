@@ -33,6 +33,7 @@ namespace NerfGun
         public static MainPage Current;
         private CoreDispatcher MainPageDispatcher;
         private ComponentsController controller;
+        private ObservableCollection<Detection> list;
 
         public CoreDispatcher UIThreadDispatcher
         {
@@ -49,17 +50,12 @@ namespace NerfGun
 
         public MainPage()
         {
+
             this.InitializeComponent();
             controller = new ComponentsController();
             controller.InitializeComponents();
-            
-            //list = new ObservableCollection<Detection>();
-            //list.Add(new Detection() { TargetDetected = "Mathuzalem", SystemResponse = "No Response" });
-            //list.Add(new Detection() { TargetDetected = "Mitch", SystemResponse = "No Response" });
-            //list.Add(new Detection() { TargetDetected = "Uka",  SystemResponse = "Missed" });
-            //list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
-            //list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
-            //list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
+
+            FillWithTestData();
 
             //// This is a static public property that allows downstream pages to get a handle to the MainPage instance
             //// in order to call methods that are in this class.
@@ -74,9 +70,27 @@ namespace NerfGun
             //        StartProgram();
             //    });
             //};
-            
+
         }
         
+        private void FillWithTestData()
+        {
+            // Filler data for UI testing
+            this.StatusText.Text = "Idle";
+            this.TargetStatus.Text = "NA";
+            this.AmmoCount.Text = "??";
+            this.RefillStatus.Text = "???";
+
+            list = new ObservableCollection<Detection>();
+            list.Add(new Detection() { TargetDetected = "Mathuzalem", SystemResponse = "No Response" });
+            list.Add(new Detection() { TargetDetected = "Mitch", SystemResponse = "No Response" });
+            list.Add(new Detection() { TargetDetected = "Uka", SystemResponse = "Missed" });
+            list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
+            list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
+            list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
+            this.DataGrid.ItemsSource = list;
+        }
+
         //public void StartProgram()
         //{
         //    var system = new ComponentsController();
@@ -95,12 +109,12 @@ namespace NerfGun
         
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
-
+            // tbd
         }
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
-
+            // tbd
         }
 
         private void Fire1_Click(object sender, RoutedEventArgs e)
@@ -110,7 +124,7 @@ namespace NerfGun
 
         private void FireAll_Click(object sender, RoutedEventArgs e)
         {
-
+            controller.FireOnMotion();
         }
     }
 }

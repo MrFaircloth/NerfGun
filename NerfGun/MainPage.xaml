@@ -55,7 +55,7 @@
 
             <!--Firing Mode-->
             <TextBlock Text="Firing Mode" FontWeight="Normal" FontSize="13" Margin="10 0 10 5"/>
-            <ComboBox Padding="2" Margin="10 0 10 5" FontSize="13">
+            <ComboBox Padding="2" Margin="10 0 10 5" FontSize="13" SelectedIndex="1">
                 <ComboBoxItem>Specific Targeting</ComboBoxItem>
                 <ComboBoxItem>Non-Specific Targeting</ComboBoxItem>
                 <ComboBoxItem>Remote Control</ComboBoxItem>
@@ -96,7 +96,31 @@
             </Grid>
 
             <!--Detected List-->
-            <TextBlock Text="Detected List" FontWeight="Bold" FontSize="13" Margin="10 10 10 0"/>
+            <TextBlock Text="Detected List" FontWeight="Bold" FontSize="13" Margin="0 0 0 0"/>
         </StackPanel>
+        <controls:DataGrid x:Name="DataGrid" Grid.Row="1" 
+                           ItemsSource="{Binding Detection}"
+                           SelectionMode="Multiple" 
+                           SelectedItem="{Binding SelectedDetection, Mode=TwoWay}"
+                           DefaultOrderIndex="1"
+                           Background="DarkGray"
+                           VerticalAlignment="Bottom"
+                           Height="325">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Width="*" Header="Target Detected" Binding="{Binding TargetDetected}" />
+                <controls:DataGridTextColumn Width="*" Header="Time Detected" Binding="{Binding TimeDetected}" />
+                <controls:DataGridTextColumn Width="*" Header="System Response" Binding="{Binding SystemResponse}" />
+            </controls:DataGrid.Columns>
+            <controls:DataGrid.ItemDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="12,0,12,12">
+                        <!-- <TextBlock Text="Details: " FontWeight="Bold" /> -->
+                        <TextBlock Text="{Binding TargetDetected}" />
+                        <TextBlock Text="{Binding TimeDetected}" />
+                        <TextBlock Text="{Binding SystemResponse}" />
+                    </StackPanel>
+                </DataTemplate>
+            </controls:DataGrid.ItemDetailsTemplate>
+        </controls:DataGrid>
     </Grid>
 </Page>
