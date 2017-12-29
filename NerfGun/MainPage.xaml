@@ -105,7 +105,7 @@
                            DefaultOrderIndex="1"
                            Background="DarkGray"
                            VerticalAlignment="Bottom"
-                           Height="325">
+                           Height="400">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Width="*" Header="Target Detected" Binding="{Binding TargetDetected}" />
                 <controls:DataGridTextColumn Width="*" Header="Time Detected" Binding="{Binding TimeDetected}" />

@@ -32,8 +32,10 @@ namespace NerfGun
         
         public static MainPage Current;
         private CoreDispatcher MainPageDispatcher;
-        private ComponentsController controller;
-        private ObservableCollection<Detection> list;
+        private ComponentsController _CController;
+        private UIController _UIController;
+        // private ObservableCollection<Detection> list;
+        private Task mainThread;
 
         public CoreDispatcher UIThreadDispatcher
         {
@@ -52,11 +54,14 @@ namespace NerfGun
         {
 
             this.InitializeComponent();
-            controller = new ComponentsController();
-            controller.InitializeComponents();
 
-            FillWithTestData();
-            StartProgram();
+            this.AmmoCount.Text = "10";
+
+            _CController = new ComponentsController();
+            //controller.InitializeComponents();
+
+            mainThread = SetUp();
+            //StartProgram();
 
 
 
@@ -73,26 +78,9 @@ namespace NerfGun
             //        StartProgram();
             //    });
             //};
-
+            // FillWithTestData();
         }
         
-        private void FillWithTestData()
-        {
-            // Filler data for UI testing
-            this.StatusText.Text = "Idle";
-            this.TargetStatus.Text = "NA";
-            this.AmmoCount.Text = "??";
-            this.RefillStatus.Text = "???";
-
-            list = new ObservableCollection<Detection>();
-            list.Add(new Detection() { TargetDetected = "Mathuzalem", SystemResponse = "No Response" });
-            list.Add(new Detection() { TargetDetected = "Mitch", SystemResponse = "No Response" });
-            list.Add(new Detection() { TargetDetected = "Uka", SystemResponse = "Missed" });
-            list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
-            list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
-            list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
-            this.DataGrid.ItemsSource = list;
-        }
         
         public async void StartProgram()
         {
@@ -101,19 +89,22 @@ namespace NerfGun
 
         public Task SetUp()
         {
-            return Task.Factory.StartNew(() =>
+            return Task.Run(() =>
             {
-                var system = new ComponentsController();
+                _CController = new ComponentsController();
+                _UIController = new UIController(this);
 
-                system.InitializeComponents();
+                _CController.InitializeComponents();
                 // system.FireOnMotion();
-                while (system.FireOnMotion())
+                while (true)
                 {
-                    list.Add(new Detection("Unknown", "Fired"));
+                    _CController.FireOnMotion();
+                    _UIController.UpdateAmmunition(-1);
+                    // list.Add(new Detection("Unknown", "Fired"));
                     // system.CleanUp();
-                    system.Delay(2000);
-                    system.CleanUp();
-                    system.InitializeComponents();
+                    _CController.Delay(2000);
+                    _CController.CleanUp();
+                    _CController.InitializeComponents();
                 }
             });
 
@@ -131,12 +122,12 @@ namespace NerfGun
 
         private void Fire1_Click(object sender, RoutedEventArgs e)
         {
-            controller.TestFire();
+            _CController.TestFire();
         }
 
         private void FireAll_Click(object sender, RoutedEventArgs e)
         {
-            controller.FireOnMotion();
+            _CController.FireOnMotion();
         }
     }
 }

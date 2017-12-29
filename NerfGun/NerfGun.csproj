@@ -133,7 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.4</Version>
+      <Version>6.0.5</Version>
     </PackageReference>
     <PackageReference Include="MyToolkit.Extended">
       <Version>2.5.16</Version>
@@ -141,12 +141,6 @@
     <PackageReference Include="System.Reactive">
       <Version>3.1.1</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NerfGunBackground\NerfGunBackground.csproj">
-      <Project>{7b7917e6-b87d-40e3-9934-f7a95029625e}</Project>
-      <Name>NerfGunBackground</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

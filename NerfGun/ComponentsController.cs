@@ -64,7 +64,7 @@ namespace NerfGun
         {
             while (!_motionSensor.ReadSensor()) { }
             _gun.Fire();
-            Delay(500);
+            Delay(1000);
             
             return true;
         }
@@ -76,7 +76,6 @@ namespace NerfGun
             return true;
         }
 
-        // I kinda understand this
         public void Delay(int time)
         {
             var Result = Observable.Range(0, 10);
