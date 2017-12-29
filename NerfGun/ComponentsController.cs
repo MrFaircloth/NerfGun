@@ -73,6 +73,7 @@ namespace NerfGun
         {
             _gun.CleanUp();
             _motionSensor.CleanUp();
+            
             return true;
         }
 

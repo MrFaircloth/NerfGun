@@ -103,8 +103,8 @@ namespace NerfGun
                     // list.Add(new Detection("Unknown", "Fired"));
                     // system.CleanUp();
                     _CController.Delay(2000);
-                    _CController.CleanUp();
-                    _CController.InitializeComponents();
+                    // _CController.CleanUp();
+                    // _CController.InitializeComponents();
                 }
             });
 
