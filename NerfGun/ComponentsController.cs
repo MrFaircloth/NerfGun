@@ -16,20 +16,17 @@ namespace NerfGun
         GpioController _gpio;
 
         DispatcherTimer _scanner, _ScannerReset, _fireTimer;
-
+        // Firing variables
         int _scanTime = 100, _fireTime = 500, _delayTime = 2000;
         bool _forceFire = false, _firing = false;
 
         public ComponentsController()
         {
-            _gpio = GpioController.GetDefault();
-            _gun = new NerfGun(_gpio);
-            _motionSensor = new MotionSensor(_gpio);
-            
+            // No purpose
         }
 
         // infinite fire on motion
-        public void Run( )
+        public void Run()
         {
             _scanner.Start();
         }
@@ -37,13 +34,16 @@ namespace NerfGun
         // creates gpio, nerfgun, motion sensor objects and passes pins
         public void InitializeComponents()
         {
+            // Builds components - Creates NerfGun and Motion Sensor Objects which are connected to the pi
             _gpio = GpioController.GetDefault();
             _gun = new NerfGun(_gpio);
             _motionSensor = new MotionSensor(_gpio);
 
+            // sets pins which the pi will be sending/receiving signals to/from in order to communicate with nerf gun && motion sensor
             _motionSensor.SetPins(MOTION_PIN);
             _gun.SetPins(MOTOR_PIN, TRIGGER_PIN);
 
+            // creates timers that will determine how the nerf gun will behave
             SetTimers();
         }
 
@@ -53,13 +53,14 @@ namespace NerfGun
             _scanner = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_scanTime) };
             _scanner.Tick += (sender, args) =>
             {
+                // Triggers if the motion sensor is tripped || user initiates a test fire && the gun isn't already firing
                 if ((_motionSensor.ReadSensor() || _forceFire) && !_firing)
                 {
                     _firing = true;
                     _forceFire = false;
-                    _scanner.Stop();
-                    _gun.Fire();
-                    _fireTimer.Start();
+                    _scanner.Stop(); // Stop scanning
+                    _gun.Fire(); // Start Firing
+                    _fireTimer.Start(); // Start delay to keep firing until X time
                 }
             };
 
@@ -67,18 +68,18 @@ namespace NerfGun
             _fireTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_fireTime) };
             _fireTimer.Tick += (sender, args) =>
             {
-                _gun.CeaseFire();
-                _fireTimer.Stop();
-                _ScannerReset.Start();
+                _gun.CeaseFire(); // Stops firing
+                _fireTimer.Stop(); // Stops timer
+                _ScannerReset.Start(); // Starts timer to delay scanning for targets
             };
 
             // resets the scanner after x time
             _ScannerReset = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_delayTime) };
             _ScannerReset.Tick += (sender, args) =>
             {
-                _scanner.Start();
+                _scanner.Start(); // Starts scanning motion sensor for targets
                 _ScannerReset.Stop();
-                _firing = false;
+                _firing = false; // Declares that it the program has finished firing
             };
         }
 
@@ -89,27 +90,19 @@ namespace NerfGun
             return _motionSensor.ReadSensor();
         }
 
-        // shoots once (or at least for 0.5 second)
+        // shoots once
         public void TestFire()
         {
             _forceFire = true;
         }
 
+        // Clean up! Clean up! Everybody! Everywhere!
         public bool CleanUp()
         {
             _gun.CleanUp();
             _motionSensor.CleanUp();
             
             return true;
-        }
-
-        public void ScannerDelay()
-        {
-            //var Result = Observable.Range(0, 1);
-            //var frequency = TimeSpan.FromMilliseconds(time);
-            //var delay = Result.Delay(frequency);
-            //delay.Subscribe(x => _gun.CeaseFire());
-
         }
     }
 }
