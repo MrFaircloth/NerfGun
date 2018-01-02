@@ -68,7 +68,7 @@ namespace NerfGun
 
         private void FireAll_Click(object sender, RoutedEventArgs e)
         {
-            _CController.FireOnMotion();
+            
         }
 
         private void FillWithTestData()

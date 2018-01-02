@@ -18,7 +18,7 @@ namespace NerfGun
         DispatcherTimer _scanner, _ScannerReset, _fireTimer;
 
         int _scanTime = 100, _fireTime = 500, _delayTime = 2000;
-        bool _forceFire = false;
+        bool _forceFire = false, _firing = false;
 
         public ComponentsController()
         {
@@ -49,31 +49,36 @@ namespace NerfGun
 
         public void SetTimers()
         {
+            // Checks for motion
             _scanner = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_scanTime) };
             _scanner.Tick += (sender, args) =>
             {
-                if (_motionSensor.ReadSensor() || _forceFire)
+                if ((_motionSensor.ReadSensor() || _forceFire) && !_firing)
                 {
+                    _firing = true;
                     _forceFire = false;
+                    _scanner.Stop();
                     _gun.Fire();
                     _fireTimer.Start();
-                    _scanner.Stop();
                 }
             };
 
+            // stops firing after x time
             _fireTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_fireTime) };
             _fireTimer.Tick += (sender, args) =>
             {
                 _gun.CeaseFire();
-                _scanner.Start();
                 _fireTimer.Stop();
+                _ScannerReset.Start();
             };
 
+            // resets the scanner after x time
             _ScannerReset = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_delayTime) };
             _ScannerReset.Tick += (sender, args) =>
             {
                 _scanner.Start();
                 _ScannerReset.Stop();
+                _firing = false;
             };
         }
 
