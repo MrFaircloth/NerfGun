@@ -34,7 +34,7 @@ namespace NerfGun
         private CoreDispatcher MainPageDispatcher;
         private ComponentsController _CController;
         private UIController _UIController;
-        // private ObservableCollection<Detection> list;
+        private ObservableCollection<Detection> list;
         private Task mainThread;
 
         public CoreDispatcher UIThreadDispatcher
@@ -55,19 +55,15 @@ namespace NerfGun
 
             this.InitializeComponent();
 
-            this.AmmoCount.Text = "10";
-
             _CController = new ComponentsController();
             //controller.InitializeComponents();
-
+            FillWithTestData();
             mainThread = SetUp();
             //StartProgram();
 
-
-
             //// This is a static public property that allows downstream pages to get a handle to the MainPage instance
             //// in order to call methods that are in this class.
-            //Current = this;
+            Current = this;
 
             //MainPageDispatcher = Window.Current.Dispatcher;
 
@@ -92,22 +88,25 @@ namespace NerfGun
             return Task.Run(() =>
             {
                 _CController = new ComponentsController();
-                _UIController = new UIController(this);
+                _UIController = new UIController(Current);
 
                 _CController.InitializeComponents();
+
+                
                 // system.FireOnMotion();
-                while (true)
-                {
+                //while (true)
+                //{
                     _CController.FireOnMotion();
-                    _UIController.UpdateAmmunition(-1);
+                    _UIController.AmmoCount--;
                     // list.Add(new Detection("Unknown", "Fired"));
                     // system.CleanUp();
+                    //list.Add(new Detection("Unknown", "Fired"));
+                    //this.DataGrid.ItemsSource = list;
                     _CController.Delay(2000);
-                    // _CController.CleanUp();
-                    // _CController.InitializeComponents();
-                }
+                // _CController.CleanUp();
+                // _CController.InitializeComponents();
+                //}
             });
-
         }
 
         private void Apply_Click(object sender, RoutedEventArgs e)
@@ -128,6 +127,20 @@ namespace NerfGun
         private void FireAll_Click(object sender, RoutedEventArgs e)
         {
             _CController.FireOnMotion();
+        }
+
+        private void FillWithTestData()
+        {
+            // Filler data for UI testing
+
+            list = new ObservableCollection<Detection>();
+            list.Add(new Detection() { TargetDetected = "Mathuzalem", SystemResponse = "No Response" });
+            list.Add(new Detection() { TargetDetected = "Mitch", SystemResponse = "No Response" });
+            //list.Add(new Detection() { TargetDetected = "Uka", SystemResponse = "Missed" });
+            //list.Add(new Detection() { TargetDetected = "Anna", SystemResponse = "Missed" });
+            //list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
+            //list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
+            this.DataGrid.ItemsSource = list;
         }
     }
 }

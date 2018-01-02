@@ -70,7 +70,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Ammunition Count" FontSize="13" Margin="25 0 0 5" Grid.Column="0"/>
-                <TextBox x:Name="AmmoCount" FontSize="13" Margin="5 0 25 5" Grid.Column="1" IsReadOnly="True" Background="White" Foreground="White"/>
+                <TextBox x:Name="AmmoCount" DataContext="{x:Bind _UIController}" FontSize="13" Margin="5 0 25 5" Grid.Column="1" IsReadOnly="True" Background="White" Foreground="Black"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -105,7 +105,7 @@
                            DefaultOrderIndex="1"
                            Background="DarkGray"
                            VerticalAlignment="Bottom"
-                           Height="400">
+                           Height="300">
             <controls:DataGrid.Columns>
                 <controls:DataGridTextColumn Width="*" Header="Target Detected" Binding="{Binding TargetDetected}" />
                 <controls:DataGridTextColumn Width="*" Header="Time Detected" Binding="{Binding TimeDetected}" />

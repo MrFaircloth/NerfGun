@@ -79,7 +79,7 @@ namespace NerfGun
 
         public void Delay(int time)
         {
-            var Result = Observable.Range(0, 10);
+            var Result = Observable.Range(0, 1);
             var frequency = TimeSpan.FromMilliseconds(time);
             var delay = Result.Delay(frequency);
             delay.Subscribe(x => _gun.CeaseFire());

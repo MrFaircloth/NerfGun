@@ -10,35 +10,26 @@ using Windows.UI.Xaml.Media;
 
 namespace NerfGun
 {
-    class UIController
+    public class UIController
     {
         Page page;
         private ObservableCollection<Detection> list;
         private PropertyInfo[] properties;
 
+        public int AmmoCount = 10;
+
         public UIController(Page page)
         {
             this.page = page;
+            
             properties = this.page.GetType().GetProperties();
-        }
-
-        public void UpdateAmmunition(int num)
-        {
-            foreach(PropertyInfo prop in properties)
-            {
-                if (prop.Name == "AmmoCount")
-                {
-                    int current = (int)prop.GetValue(page);
-                    prop.SetValue(page, current + num);
-                    break;
-                }
-            }
+           
         }
 
 
         //private void FillWithTestData()
         //{
-        //    // Filler data for UI testing
+        //    //Filler data for UI testing
         //    page.StatusText.Text = "Idle";
         //    page.TargetStatus.Text = "NA";
         //    page.AmmoCount.Text = "??";
