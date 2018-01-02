@@ -26,6 +26,11 @@ namespace NerfGun
            
         }
 
+        public string getAmmo()
+        {
+            return AmmoCount.ToString();
+        }
+
 
         //private void FillWithTestData()
         //{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using Windows.Devices.Gpio;
+using Windows.UI.Xaml;
 
 namespace NerfGun
 {
@@ -14,22 +15,23 @@ namespace NerfGun
         MotionSensor _motionSensor;
         GpioController _gpio;
 
+        DispatcherTimer _scanner, _ScannerReset, _fireTimer;
+
+        int _scanTime = 100, _fireTime = 500, _delayTime = 2000;
+        bool _forceFire = false;
+
         public ComponentsController()
         {
             _gpio = GpioController.GetDefault();
             _gun = new NerfGun(_gpio);
             _motionSensor = new MotionSensor(_gpio);
+            
         }
 
         // infinite fire on motion
         public void Run( )
         {
-            InitializeComponents();
-            while (true)
-            {
-                FireOnMotion();
-                Delay(1000);
-            }
+            _scanner.Start();
         }
 
         // creates gpio, nerfgun, motion sensor objects and passes pins
@@ -41,6 +43,38 @@ namespace NerfGun
 
             _motionSensor.SetPins(MOTION_PIN);
             _gun.SetPins(MOTOR_PIN, TRIGGER_PIN);
+
+            SetTimers();
+        }
+
+        public void SetTimers()
+        {
+            _scanner = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_scanTime) };
+            _scanner.Tick += (sender, args) =>
+            {
+                if (_motionSensor.ReadSensor() || _forceFire)
+                {
+                    _forceFire = false;
+                    _gun.Fire();
+                    _fireTimer.Start();
+                    _scanner.Stop();
+                }
+            };
+
+            _fireTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_fireTime) };
+            _fireTimer.Tick += (sender, args) =>
+            {
+                _gun.CeaseFire();
+                _scanner.Start();
+                _fireTimer.Stop();
+            };
+
+            _ScannerReset = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_delayTime) };
+            _ScannerReset.Tick += (sender, args) =>
+            {
+                _scanner.Start();
+                _ScannerReset.Stop();
+            };
         }
 
         // returns motion sensor reading
@@ -51,22 +85,9 @@ namespace NerfGun
         }
 
         // shoots once (or at least for 0.5 second)
-        public bool TestFire()
+        public void TestFire()
         {
-            _gun.Fire();
-            Delay(500);
-            //_gun.CeaseFire();
-            return true;
-        }
-
-        // Fires after motion is detected
-        public bool FireOnMotion()
-        {
-            while (!_motionSensor.ReadSensor()) { }
-            _gun.Fire();
-            Delay(1000);
-            
-            return true;
+            _forceFire = true;
         }
 
         public bool CleanUp()
@@ -77,12 +98,13 @@ namespace NerfGun
             return true;
         }
 
-        public void Delay(int time)
+        public void ScannerDelay()
         {
-            var Result = Observable.Range(0, 1);
-            var frequency = TimeSpan.FromMilliseconds(time);
-            var delay = Result.Delay(frequency);
-            delay.Subscribe(x => _gun.CeaseFire());
+            //var Result = Observable.Range(0, 1);
+            //var frequency = TimeSpan.FromMilliseconds(time);
+            //var delay = Result.Delay(frequency);
+            //delay.Subscribe(x => _gun.CeaseFire());
+
         }
     }
 }

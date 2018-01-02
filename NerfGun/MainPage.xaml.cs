@@ -35,20 +35,6 @@ namespace NerfGun
         private ComponentsController _CController;
         private UIController _UIController;
         private ObservableCollection<Detection> list;
-        private Task mainThread;
-
-        public CoreDispatcher UIThreadDispatcher
-        {
-            get
-            {
-                return MainPageDispatcher;
-            }
-
-            set
-            {
-                MainPageDispatcher = value;
-            }
-        }
 
         public MainPage()
         {
@@ -56,57 +42,13 @@ namespace NerfGun
             this.InitializeComponent();
 
             _CController = new ComponentsController();
-            //controller.InitializeComponents();
+            _CController.InitializeComponents();
+            _CController.Run();
+
+            _UIController = new UIController(this);
+            
             FillWithTestData();
-            mainThread = SetUp();
-            //StartProgram();
 
-            //// This is a static public property that allows downstream pages to get a handle to the MainPage instance
-            //// in order to call methods that are in this class.
-            Current = this;
-
-            //MainPageDispatcher = Window.Current.Dispatcher;
-
-            //this.Loaded += async (sender, e) =>
-            //{
-            //    await MainPageDispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-            //    {
-            //        StartProgram();
-            //    });
-            //};
-            // FillWithTestData();
-        }
-        
-        
-        public async void StartProgram()
-        {
-            await SetUp();
-        }
-
-        public Task SetUp()
-        {
-            return Task.Run(() =>
-            {
-                _CController = new ComponentsController();
-                _UIController = new UIController(Current);
-
-                _CController.InitializeComponents();
-
-                
-                // system.FireOnMotion();
-                //while (true)
-                //{
-                    _CController.FireOnMotion();
-                    _UIController.AmmoCount--;
-                    // list.Add(new Detection("Unknown", "Fired"));
-                    // system.CleanUp();
-                    //list.Add(new Detection("Unknown", "Fired"));
-                    //this.DataGrid.ItemsSource = list;
-                    _CController.Delay(2000);
-                // _CController.CleanUp();
-                // _CController.InitializeComponents();
-                //}
-            });
         }
 
         private void Apply_Click(object sender, RoutedEventArgs e)
