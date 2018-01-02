@@ -14,14 +14,16 @@ namespace NerfGun
         NerfGun _gun;
         MotionSensor _motionSensor;
         GpioController _gpio;
+        UIController _UIController;
 
         DispatcherTimer _scanner, _ScannerReset, _fireTimer;
         // Firing variables
-        int _scanTime = 100, _fireTime = 500, _delayTime = 2000;
+        const int SCANTIME = 200, FIRETIME = 500, DELAYTIME = 1000;
         bool _forceFire = false, _firing = false;
 
-        public ComponentsController()
+        public ComponentsController(ref UIController controller)
         {
+            _UIController = controller;
             // No purpose
         }
 
@@ -50,7 +52,7 @@ namespace NerfGun
         public void SetTimers()
         {
             // Checks for motion
-            _scanner = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_scanTime) };
+            _scanner = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(SCANTIME) };
             _scanner.Tick += (sender, args) =>
             {
                 // Triggers if the motion sensor is tripped || user initiates a test fire && the gun isn't already firing
@@ -65,16 +67,17 @@ namespace NerfGun
             };
 
             // stops firing after x time
-            _fireTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_fireTime) };
+            _fireTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(FIRETIME) };
             _fireTimer.Tick += (sender, args) =>
             {
                 _gun.CeaseFire(); // Stops firing
                 _fireTimer.Stop(); // Stops timer
+                _UIController.AmmoCount--;
                 _ScannerReset.Start(); // Starts timer to delay scanning for targets
             };
 
             // resets the scanner after x time
-            _ScannerReset = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_delayTime) };
+            _ScannerReset = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(DELAYTIME) };
             _ScannerReset.Tick += (sender, args) =>
             {
                 _scanner.Start(); // Starts scanning motion sensor for targets

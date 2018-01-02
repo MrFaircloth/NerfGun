@@ -29,9 +29,6 @@ namespace NerfGun
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        
-        public static MainPage Current;
-        private CoreDispatcher MainPageDispatcher;
         private ComponentsController _CController;
         private UIController _UIController;
         private ObservableCollection<Detection> list;
@@ -40,12 +37,13 @@ namespace NerfGun
         {
 
             this.InitializeComponent();
-
-            _CController = new ComponentsController();
-            _CController.InitializeComponents();
-            _CController.Run();
-
             _UIController = new UIController(this);
+
+            _CController = new ComponentsController(ref _UIController);
+            _CController.InitializeComponents(); // prepare sensors
+            _CController.Run(); // start running fire on motion
+
+            
             
             FillWithTestData();
 
@@ -68,7 +66,7 @@ namespace NerfGun
 
         private void FireAll_Click(object sender, RoutedEventArgs e)
         {
-            
+            // tbd
         }
 
         private void FillWithTestData()
