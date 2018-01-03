@@ -1,11 +1,33 @@
-﻿using Windows.Devices.Gpio;
+﻿using System.ComponentModel;
+using Windows.Devices.Gpio;
 
 namespace NerfGun
 {
-    class NerfGun
+    public class NerfGun : INotifyPropertyChanged
     {
         GpioController _gpio;
         GpioPin _motor, _trigger;
+
+        private int _ammCount = 10;
+        
+        public int AmmoCount
+        {
+            get { return _ammCount; }
+            set
+            {
+                _ammCount = value;
+                RaisePropertyChanged("AmmoCount");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void RaisePropertyChanged(string name)
+        {
+            if(PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
 
         public NerfGun(GpioController gpio)
         {

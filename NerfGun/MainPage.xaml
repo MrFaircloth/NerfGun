@@ -70,7 +70,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Ammunition Count" FontSize="13" Margin="25 0 0 5" Grid.Column="0"/>
-                <TextBox x:Name="AmmoCount" Text="{x:Bind Path=_UIController.AmmoCount}" FontSize="13" Margin="5 0 25 5" Grid.Column="1" IsReadOnly="True" Background="White" Foreground="Black"/>
+                <TextBox x:Name="AmmoCount" Text="{x:Bind Path=_CController._gun.AmmoCount, Mode=OneWay}" FontSize="13" Margin="5 0 25 5" Grid.Column="1" IsReadOnly="True" Background="White" Foreground="Black"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>

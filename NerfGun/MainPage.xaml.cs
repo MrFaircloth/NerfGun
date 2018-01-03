@@ -37,14 +37,14 @@ namespace NerfGun
         {
 
             this.InitializeComponent();
-            _UIController = new UIController(this);
+            if(_CController == null)
+            {
+                _UIController = new UIController(this);
 
-            _CController = new ComponentsController(ref _UIController);
-            _CController.InitializeComponents(); // prepare sensors
-            _CController.Run(); // start running fire on motion
-
-            
-            
+                _CController = new ComponentsController(ref _UIController);
+                _CController.InitializeComponents(); // prepare sensors
+                _CController.Run(); // start running fire on motion
+            }
             FillWithTestData();
 
         }

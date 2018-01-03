@@ -16,19 +16,24 @@ namespace NerfGun
         private ObservableCollection<Detection> list;
         private PropertyInfo[] properties;
 
-        public int AmmoCount = 10;
+        public int AmmoCount { get; set; } = 10;
 
         public UIController(Page page)
         {
             this.page = page;
-            
+
             properties = this.page.GetType().GetProperties();
-           
+
         }
 
         public string getAmmo()
         {
             return AmmoCount.ToString();
+        }
+
+        public void Refresh()
+        {
+
         }
 
 

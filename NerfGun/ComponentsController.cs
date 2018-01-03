@@ -11,7 +11,7 @@ namespace NerfGun
         private const int TRIGGER_PIN = 22; // Pi pin 15
         private const int MOTION_PIN = 26; // Pi pin 37
 
-        NerfGun _gun;
+        public NerfGun _gun;
         MotionSensor _motionSensor;
         GpioController _gpio;
         UIController _UIController;
@@ -24,7 +24,6 @@ namespace NerfGun
         public ComponentsController(ref UIController controller)
         {
             _UIController = controller;
-            // No purpose
         }
 
         // infinite fire on motion
@@ -72,7 +71,8 @@ namespace NerfGun
             {
                 _gun.CeaseFire(); // Stops firing
                 _fireTimer.Stop(); // Stops timer
-                _UIController.AmmoCount--;
+                _gun.AmmoCount--;
+                
                 _ScannerReset.Start(); // Starts timer to delay scanning for targets
             };
 
@@ -83,6 +83,7 @@ namespace NerfGun
                 _scanner.Start(); // Starts scanning motion sensor for targets
                 _ScannerReset.Stop();
                 _firing = false; // Declares that it the program has finished firing
+                // _UIController.Refresh();
             };
         }
 
