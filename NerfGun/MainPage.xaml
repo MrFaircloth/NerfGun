@@ -8,6 +8,7 @@
     xmlns:controls="using:MyToolkit.Controls"
     mc:Ignorable="d"
     Background="#182135"
+    Loaded="Page_Loaded"
     >
 
     <Grid Background="DarkGray">

@@ -35,18 +35,7 @@ namespace NerfGun
 
         public MainPage()
         {
-
             this.InitializeComponent();
-            if(_CController == null)
-            {
-                _UIController = new UIController(this);
-
-                _CController = new ComponentsController(ref _UIController);
-                _CController.InitializeComponents(); // prepare sensors
-                _CController.Run(); // start running fire on motion
-            }
-            FillWithTestData();
-
         }
 
         private void Apply_Click(object sender, RoutedEventArgs e)
@@ -81,6 +70,18 @@ namespace NerfGun
             //list.Add(new Detection() { TargetDetected = "Shiva", SystemResponse = "Turned on lights" });
             //list.Add(new Detection() { TargetDetected = "Oscar", SystemResponse = "KIA" });
             this.DataGrid.ItemsSource = list;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_CController == null)
+            {
+                _UIController = new UIController(this);
+                _CController = new ComponentsController(ref _UIController);
+                _CController.InitializeComponents(); // prepare sensors
+                _CController.Run(); // start running fire on motion
+            }
+            FillWithTestData();
         }
     }
 }
